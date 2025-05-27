@@ -2342,51 +2342,6 @@ body.menu-open {
     }
 }
 
-.floating-action-button {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 60px;
-    height: 60px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: var(--shadow-xl);
-    transition: var(--transition-normal);
-    z-index: 1000;
-    transform: scale(0);
-}
-
-.floating-action-button.show {
-    transform: scale(1);
-}
-
-.floating-action-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
-}
-
-.fab-tooltip {
-    position: absolute;
-    right: 70px;
-    background: var(--text-primary);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius-md);
-    font-size: 0.875rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-
-
-
-
 /* Loading cursor */
 .custom-cursor.loading {
     animation: cursorSpin 1s linear infinite;

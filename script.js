@@ -641,7 +641,7 @@ function initInteractiveElements() {
     initCardEffects();
     
     // Floating action button
-    initFloatingActionButton();
+    // initFloatingActionButton();
 }
 
 // Ripple Effect
@@ -685,39 +685,81 @@ function initCardEffects() {
     });
 }
 
-// Floating Action Button
-function initFloatingActionButton() {
-    // Create floating action button for quick appointment booking
-    const fab = document.createElement('div');
-    fab.className = 'floating-action-button';
-    fab.innerHTML = `
-        <i class="fas fa-calendar-plus"></i>
-        <span class="fab-tooltip">Quick Appointment</span>
-    `;
+// WhatsApp Button Functionality
+function initWhatsAppButton() {
+    const whatsappFloat = document.getElementById('whatsapp-float');
+    const whatsappChat = document.getElementById('whatsapp-chat');
+    const chatClose = document.getElementById('chat-close');
+    const quickBtns = document.querySelectorAll('.quick-btn');
     
-    document.body.appendChild(fab);
+    // Only proceed if WhatsApp elements exist
+    if (whatsappFloat) {
+        // Show WhatsApp button after page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                whatsappFloat.classList.add('show');
+            }, 3000);
+        });
+        
+        // Show/hide based on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                whatsappFloat.classList.add('show');
+            } else {
+                whatsappFloat.classList.remove('show');
+            }
+        });
+        
+        // Toggle chat widget
+        whatsappFloat.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (whatsappChat && whatsappChat.classList.contains('show')) {
+                whatsappChat.classList.remove('show');
+            } else if (whatsappChat) {
+                whatsappChat.classList.add('show');
+                
+                // Auto-hide after 10 seconds if no interaction
+                setTimeout(() => {
+                    if (whatsappChat.classList.contains('show')) {
+                        whatsappChat.classList.remove('show');
+                    }
+                }, 10000);
+            }
+        });
+    }
     
-    // Show/hide based on scroll
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 500) {
-            fab.classList.add('show');
-        } else {
-            fab.classList.remove('show');
-        }
+    // Close chat widget
+    if (chatClose) {
+        chatClose.addEventListener('click', () => {
+            if (whatsappChat) {
+                whatsappChat.classList.remove('show');
+            }
+        });
+    }
+    
+    // Quick button functionality
+    quickBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const message = btn.getAttribute('data-message');
+            const phoneNumber = '919811955712';
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            if (whatsappChat) {
+                whatsappChat.classList.remove('show');
+            }
+        });
     });
     
-    // Click handler
-    fab.addEventListener('click', () => {
-        const contactSection = document.getElementById('contact');
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // Focus on first form field
-        setTimeout(() => {
-            const firstInput = document.querySelector('#appointmentForm input');
-            if (firstInput) {
-                firstInput.focus();
-            }
-        }, 1000);
+    // Close chat when clicking outside
+    document.addEventListener('click', (e) => {
+        if (whatsappFloat && whatsappChat && 
+            !whatsappFloat.contains(e.target) && 
+            !whatsappChat.contains(e.target)) {
+            whatsappChat.classList.remove('show');
+        }
     });
 }
 
@@ -820,84 +862,6 @@ function initAOS() {
             AOS.refresh();
         });
     }
-}
-
-// WhatsApp Button Functionality
-function initWhatsAppButton() {
-    const whatsappFloat = document.getElementById('whatsapp-float');
-    const whatsappChat = document.getElementById('whatsapp-chat');
-    const chatClose = document.getElementById('chat-close');
-    const quickBtns = document.querySelectorAll('.quick-btn');
-    
-    // Only proceed if WhatsApp elements exist
-    if (whatsappFloat) {
-        // Show WhatsApp button after page load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                whatsappFloat.classList.add('show');
-            }, 3000);
-        });
-        
-        // Show/hide based on scroll
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                whatsappFloat.classList.add('show');
-            } else {
-                whatsappFloat.classList.remove('show');
-            }
-        });
-        
-        // Toggle chat widget
-        whatsappFloat.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            if (whatsappChat && whatsappChat.classList.contains('show')) {
-                whatsappChat.classList.remove('show');
-            } else if (whatsappChat) {
-                whatsappChat.classList.add('show');
-                
-                // Auto-hide after 10 seconds if no interaction
-                setTimeout(() => {
-                    if (whatsappChat.classList.contains('show')) {
-                        whatsappChat.classList.remove('show');
-                    }
-                }, 10000);
-            }
-        });
-    }
-    
-    // Close chat widget
-    if (chatClose) {
-        chatClose.addEventListener('click', () => {
-            if (whatsappChat) {
-                whatsappChat.classList.remove('show');
-            }
-        });
-    }
-    
-    // Quick button functionality
-    quickBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const message = btn.getAttribute('data-message');
-            const phoneNumber = '919811955712';
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-            
-            window.open(whatsappUrl, '_blank');
-            if (whatsappChat) {
-                whatsappChat.classList.remove('show');
-            }
-        });
-    });
-    
-    // Close chat when clicking outside
-    document.addEventListener('click', (e) => {
-        if (whatsappFloat && whatsappChat && 
-            !whatsappFloat.contains(e.target) && 
-            !whatsappChat.contains(e.target)) {
-            whatsappChat.classList.remove('show');
-        }
-    });
 }
 
 // Utility Functions
