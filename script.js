@@ -173,21 +173,17 @@ function initMobileMenu() {
     }
     
     // Main hamburger click handler
-    hamburger.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const isActive = hamburger.classList.contains('active');
-        
-        if (isActive) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
-            body.classList.remove('menu-open');
-        } else {
-            hamburger.classList.add('active');
-            navMenu.classList.add('active');
-            body.classList.add('menu-open');
-        }
+        });
     });
     
     // Enhanced nav link handling for mobile
