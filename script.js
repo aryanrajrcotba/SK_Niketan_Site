@@ -330,6 +330,7 @@ function initCounters() {
     
     const animateCounter = (counter) => {
         const target = parseInt(counter.getAttribute('data-count'));
+        const hasPlus = counter.getAttribute('data-plus') === 'true';
         const duration = 2000; // 2 seconds
         const step = target / (duration / 16); // 60fps
         let current = 0;
@@ -340,7 +341,7 @@ function initCounters() {
                 counter.textContent = Math.floor(current);
                 requestAnimationFrame(updateCounter);
             } else {
-                counter.textContent = target;
+                counter.textContent = target + (hasPlus ? '+' : '');
             }
         };
         
