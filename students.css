@@ -6,6 +6,8 @@
     color: white;
     padding: 100px 0 60px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .students-hero h1 {
@@ -20,6 +22,74 @@
     opacity: 1;
     color: white;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.students-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #f9d423, #a1ffce, #f857a6, #ff5858);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease-in-out infinite;
+    opacity: 0.18;
+    z-index: 1;
+    filter: blur(2px) brightness(1.2);
+    box-shadow: 0 0 80px 20px #fff7, 0 0 120px 40px #f9d42355;
+}
+
+.gradient-orbs::before,
+.gradient-orbs::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px) brightness(1.3);
+    opacity: 0.35;
+    animation: float 7s ease-in-out infinite;
+    box-shadow: 0 0 80px 40px #fff7, 0 0 120px 60px #f857a655;
+}
+
+.gradient-orbs::before {
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle at 30% 30%, #23a6d5 60%, #e73c7e 100%, #f9d423 80%);
+    top: 18%;
+    left: 8%;
+    animation-delay: 0s;
+}
+
+.gradient-orbs::after {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 70% 70%, #ee7752 60%, #23d5ab 100%, #a1ffce 80%);
+    bottom: 18%;
+    right: 8%;
+    animation-delay: 2.5s;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.students-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 /* Team Section */
@@ -258,4 +328,59 @@
     .nav-menu li {
         margin: 16px 0;
     }
+}
+
+.pattern-3d {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.pattern-cube {
+    top: 15%;
+    left: 80%;
+    width: 60px;
+    height: 60px;
+    transform-style: preserve-3d;
+    animation: rotateCube 7s linear infinite;
+}
+
+.pattern-cube::before, .pattern-cube::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #23a6d5 60%, #f857a6 100%);
+    border-radius: 12px;
+    box-shadow: 0 0 40px 10px #23a6d555;
+    opacity: 0.7;
+}
+.pattern-cube::before {
+    transform: rotateY(0deg) translateZ(30px);
+}
+.pattern-cube::after {
+    transform: rotateY(90deg) translateZ(30px);
+    background: linear-gradient(135deg, #f9d423 60%, #23d5ab 100%);
+}
+
+@keyframes rotateCube {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+.pattern-sphere {
+    bottom: 10%;
+    left: 12%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #a1ffce 60%, #ff5858 100%);
+    box-shadow: 0 0 60px 20px #a1ffce77, 0 0 80px 40px #ff585877;
+    opacity: 0.7;
+    animation: floatSphere 6s ease-in-out infinite;
+}
+
+@keyframes floatSphere {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.1); }
 } 
