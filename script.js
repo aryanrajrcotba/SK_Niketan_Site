@@ -429,21 +429,18 @@ function handleFormSubmission(form) {
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
     submitButton.disabled = true;
     
-    // Let Formspree handle the submission
+    // Prepare form data for Web3Forms
     const formData = new FormData(form);
     
-    fetch('https://formspree.io/f/xnndjpbd', {
+    fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
+        body: formData
     })
-    .then(response => {
-        if (response.ok) {
-            showNotification('Appointment request submitted successfully! We will contact you soon.', 'success');
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
             form.reset();
-            
+            showThankYouPopup();
             // Add success animation
             form.classList.add('form-success');
             setTimeout(() => {
@@ -455,14 +452,46 @@ function handleFormSubmission(form) {
     })
     .catch(error => {
         console.error('Error:', error);
-        showNotification('Failed to submit appointment request. Please try again.', 'error');
+        showNotification('Failed to submit application. Please try again.', 'error');
     })
     .finally(() => {
-        submitButton.innerHTML = '<span>Book Appointment</span><i class="fas fa-paper-plane"></i>';
+        submitButton.innerHTML = '<span>Submit Application</span><i class="fas fa-paper-plane"></i>';
         submitButton.disabled = false;
     });
 }
 
+// Custom Thank You Popup
+function showThankYouPopup() {
+    let popup = document.getElementById('thankyou-popup');
+    if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'thankyou-popup';
+        popup.innerHTML = `
+            <div class="thankyou-modal">
+                <div class="thankyou-content">
+                    <span class="thankyou-close" id="thankyou-close">&times;</span>
+                    <h2>Thank You!</h2>
+                    <p>Your application has been submitted successfully.<br>We will contact you soon.</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(popup);
+    }
+    popup.style.display = 'flex';
+    document.body.classList.add('modal-open');
+    // Close on click
+    document.getElementById('thankyou-close').onclick = function() {
+        popup.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    };
+    // Close on outside click
+    popup.onclick = function(e) {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+    };
+}
 
 // Form Validation
 function validateForm(form) {

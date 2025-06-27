@@ -3329,3 +3329,58 @@ body.menu-open {
     margin-bottom: 1.5rem;
     box-shadow: var(--shadow-lg);
 }
+
+/* Thank You Popup Styles */
+#thankyou-popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.45);
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+}
+.thankyou-modal {
+    background: #fff;
+    border-radius: var(--border-radius-2xl, 1.5rem);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 2.5rem 2rem 2rem 2rem;
+    max-width: 95vw;
+    width: 350px;
+    text-align: center;
+    position: relative;
+    animation: popupIn 0.3s;
+}
+.thankyou-content h2 {
+    color: var(--primary-color, #2563eb);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+.thankyou-content p {
+    color: var(--text-secondary, #555);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+.thankyou-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.thankyou-close:hover {
+    color: var(--primary-color, #2563eb);
+}
+@keyframes popupIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+body.modal-open {
+    overflow: hidden;
+}
